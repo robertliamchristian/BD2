@@ -1,11 +1,14 @@
 const express = require('express');
 const { Pool } = require('pg');
 const app = express();
-const cors = require('cors'); // Add this line
+const cors = require('cors'); 
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 
 
-app.use(express.json()); // for parsing application/json
+app.use(express.json()); 
+app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
 
 
 const pool = new Pool({
@@ -73,6 +76,52 @@ app.get('/birdedex', (req, res, next) => {
     );
   });
   */
+
+  //Login POST
+  app.post('/signup', async (req, res, next) => {
+    const { username, password, email } = req.body;
+  
+    // Hash the password
+    const passwordHash = await bcrypt.hash(password, 10);
+  
+    pool.query(
+      `INSERT INTO newusers (username, password_hash, email) VALUES ($1, $2, $3)`,
+      [username, passwordHash, email],
+      (err, result) => {
+        if (err) return next(err);
+        res.status(200).json({ status: 'success', message: 'User created' });
+      }
+    );
+  });
+
+  app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+  
+    // Query the database for the user
+    pool.query(
+      `SELECT * FROM newusers WHERE username = $1`,
+      [username],
+      async (err, result) => {
+        if (err) {
+          res.status(500).json({ status: 'error', message: 'Server error' });
+          return;
+        }
+  
+        // If user found, check the password
+        const user = result.rows[0];
+        const passwordMatches = await bcrypt.compare(password, user.password_hash);
+  
+        if (!passwordMatches) {
+          res.status(401).json({ status: 'error', message: 'Invalid credentials' });
+          return;
+        }
+  
+        // If password matches, log the user in
+        res.status(200).json({ status: 'success', message: 'User logged in' });
+      }
+    );
+  });
+
   app.listen(3000, () => {
     console.log('Server is running on port 3000');
   });

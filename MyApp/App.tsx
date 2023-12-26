@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { Table, Row } from 'react-native-table-component';
-import { Picker } from '@react-native-picker/picker';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {Table, Row} from 'react-native-table-component';
+import {Picker} from '@react-native-picker/picker';
+import LoginForm from './Login';
+import SignupForm from './SignUp';
 
 interface Birdedex {
   //userid: string;
@@ -14,8 +16,8 @@ interface Birdedex {
 interface UserList {
   bird: string;
   sighting_time: string;
- // listid: string;
- // userid: string;
+  // listid: string;
+  // userid: string;
 }
 
 const App = () => {
@@ -40,19 +42,23 @@ const App = () => {
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={selectedList}
-          onValueChange={(itemValue) => setSelectedList(itemValue)}
-          style={styles.picker}
-        >
+          onValueChange={itemValue => setSelectedList(itemValue)}
+          style={styles.picker}>
           <Picker.Item label="Birdedex" value="birdedex" />
           <Picker.Item label="Userlists" value="userlists" />
         </Picker>
       </View>
-
+      <SignupForm />
+      < LoginForm />
       {selectedList === 'birdedex' && (
         <View style={styles.listContainer}>
           <Text style={styles.headerText}>Birdedex:</Text>
           <Table borderStyle={styles.table}>
-            <Row data={[ 'Bird', 'Sighting Time']} style={styles.head} textStyle={styles.text}/>
+            <Row
+              data={['Bird', 'Sighting Time']}
+              style={styles.head}
+              textStyle={styles.text}
+            />
             {birdedex.map((rowData, index) => (
               <Row
                 key={index}
@@ -69,7 +75,11 @@ const App = () => {
         <View style={styles.listContainer}>
           <Text style={styles.headerText}>Userlists:</Text>
           <Table borderStyle={styles.table}>
-            <Row data={['Bird', 'Sighting Time']} style={styles.head} textStyle={styles.text}/>
+            <Row
+              data={['Bird', 'Sighting Time']}
+              style={styles.head}
+              textStyle={styles.text}
+            />
             {userlists.map((rowData, index) => (
               <Row
                 key={index}
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',
   },
- /* pickerContainer: {
+  /* pickerContainer: {
     margin: 10,
     borderWidth: 1,
     borderColor: '#ddd',
