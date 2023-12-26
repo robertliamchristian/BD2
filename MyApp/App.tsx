@@ -48,8 +48,7 @@ const App = () => {
           <Picker.Item label="Userlists" value="userlists" />
         </Picker>
       </View>
-      <SignupForm />
-      < LoginForm />
+      
       {selectedList === 'birdedex' && (
         <View style={styles.listContainer}>
           <Text style={styles.headerText}>Birdedex:</Text>
