@@ -64,17 +64,28 @@ router.post('/user_sighting', async (ctx, next) => {
     const { bird, sighting_time } = ctx.request.body;
     console.log('Request Body:', ctx.request.body); // Log the request body
 
+    // Check if the bird exists in the log table
+    const birdExists = await pool.query(`
+      SELECT birdid FROM log WHERE bird = $1
+    `, [bird]);
+
+    if (birdExists.rowCount === 0) {
+      throw new Error('Bird not found');
+    }
+
+    const birdId = birdExists.rows[0].birdid;
+
     let result;
     if (sighting_time) {
       result = await pool.query(`
         INSERT INTO user_sighting (birdref, sighting_time)
-        VALUES ((SELECT birdid FROM log WHERE bird = $1), $2)
-      `, [bird, sighting_time]);
+        VALUES ($1, $2)
+      `, [birdId, sighting_time]);
     } else {
       result = await pool.query(`
         INSERT INTO user_sighting (birdref)
-        VALUES ((SELECT birdid FROM log WHERE bird = $1))
-      `, [bird]);
+        VALUES ($1)
+      `, [birdId]);
     }
 
     ctx.status = 201;
