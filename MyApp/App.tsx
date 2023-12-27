@@ -1,29 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TextInput, Button} from 'react-native';
 import {Table, Row} from 'react-native-table-component';
 import {Picker} from '@react-native-picker/picker';
-import LoginForm from './Login';
-import SignupForm from './SignUp';
+import axios from 'axios';
 
-interface Birdedex {
-  //userid: string;
+interface Bird {
   bird: string;
   sighting_time: string;
-  //listid: string;
-  //seen: string;
 }
 
 interface UserList {
   bird: string;
   sighting_time: string;
-  // listid: string;
-  // userid: string;
 }
 
 const App = () => {
   const [birdedex, setBirdedex] = useState<Bird[]>([]);
   const [userlists, setUserlists] = useState<UserList[]>([]);
   const [selectedList, setSelectedList] = useState('birdedex');
+  const [birdName, setBirdName] = useState('');
+  const [sightingTime, setSightingTime] = useState('');
+
+  const addSighting = () => {
+    axios.post('http://localhost:3000/user_sighting', {
+      bird: birdName
+    })
+    .then(response => {
+      console.log(response.data);
+      setBirdName('');
+    })
+    .catch(error => {
+      console.error('Error adding sighting:', error);
+    });
+  };
 
   useEffect(() => {
     fetch('http://localhost:3000/birdedex')
@@ -38,59 +47,56 @@ const App = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={selectedList}
-          onValueChange={itemValue => setSelectedList(itemValue)}
-          style={styles.picker}>
-          <Picker.Item label="Birdedex" value="birdedex" />
-          <Picker.Item label="Userlists" value="userlists" />
-        </Picker>
-      </View>
-      
-      {selectedList === 'birdedex' && (
-        <View style={styles.listContainer}>
-          <Text style={styles.headerText}>Birdedex:</Text>
-          <Table borderStyle={styles.table}>
-            <Row
-              data={['Bird', 'Sighting Time']}
-              style={styles.head}
-              textStyle={styles.text}
-            />
-            {birdedex.map((rowData, index) => (
+    <>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedList}
+            onValueChange={itemValue => setSelectedList(itemValue)}
+            style={styles.picker}>
+            <Picker.Item label="Birdedex" value="birdedex" />
+            <Picker.Item label="Userlists" value="userlists" />
+          </Picker>
+        </View>
+        
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={birdName}
+            onChangeText={setBirdName}
+            placeholder="Bird Name"
+            style={styles.input}
+          />
+          <TextInput
+            value={sightingTime}
+            onChangeText={setSightingTime}
+            placeholder="Sighting Time"
+            style={styles.input}
+          />
+          <Button title="Add Sighting" onPress={addSighting} />
+        </View>
+  
+        {selectedList === 'birdedex' && (
+          <View style={styles.listContainer}>
+            <Text style={styles.headerText}>Birdedex:</Text>
+            <Table borderStyle={styles.table}>
               <Row
-                key={index}
-                data={[rowData.bird, rowData.sighting_time]}
-                style={styles.row}
+                data={['Bird', 'Sighting Time']}
+                style={styles.head}
                 textStyle={styles.text}
               />
-            ))}
-          </Table>
-        </View>
-      )}
-
-      {selectedList === 'userlists' && (
-        <View style={styles.listContainer}>
-          <Text style={styles.headerText}>Userlists:</Text>
-          <Table borderStyle={styles.table}>
-            <Row
-              data={['Bird', 'Sighting Time']}
-              style={styles.head}
-              textStyle={styles.text}
-            />
-            {userlists.map((rowData, index) => (
-              <Row
-                key={index}
-                data={[rowData.bird, rowData.sighting_time]}
-                style={styles.row}
-                textStyle={styles.text}
-              />
-            ))}
-          </Table>
-        </View>
-      )}
-    </ScrollView>
+              {birdedex.map((rowData, index) => (
+                <Row
+                  key={index}
+                  data={[rowData.bird, rowData.sighting_time]}
+                  style={styles.row}
+                  textStyle={styles.text}
+                />
+              ))}
+            </Table>
+          </View>
+        )}
+      </ScrollView>
+    </>
   );
 };
 
@@ -133,6 +139,19 @@ const styles = StyleSheet.create({
   text: {
     margin: 6,
     textAlign: 'center',
+  },
+  inputContainer: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 5,
   },
 });
 

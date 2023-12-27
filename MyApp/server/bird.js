@@ -58,6 +58,34 @@ router.get('/userlists', async (ctx, next) => {
   }
 });
 
+// AddBird POST
+router.post('/user_sighting', async (ctx, next) => {
+  try {
+    const { bird, sighting_time } = ctx.request.body;
+    console.log('Request Body:', ctx.request.body); // Log the request body
+
+    let result;
+    if (sighting_time) {
+      result = await pool.query(`
+        INSERT INTO user_sighting (birdref, sighting_time)
+        VALUES ((SELECT birdid FROM log WHERE bird = $1), $2)
+      `, [bird, sighting_time]);
+    } else {
+      result = await pool.query(`
+        INSERT INTO user_sighting (birdref)
+        VALUES ((SELECT birdid FROM log WHERE bird = $1))
+      `, [bird]);
+    }
+
+    ctx.status = 201;
+    ctx.body = 'Sighting added successfully';
+  } catch (err) {
+    console.error('Error:', err.message); // Log the error message
+    ctx.status = 500;
+    ctx.body = err.message;
+  }
+});
+
 app
   .use(bodyParser())
   .use(router.routes())
