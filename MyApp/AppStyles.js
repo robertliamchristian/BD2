@@ -3,19 +3,22 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     scrollView: {
-      backgroundColor: '#fff',
+      backgroundColor: '#3D437E',
     },
      
     headerText: {
       fontWeight: 'bold',
       fontSize: 18,
       padding: 10,
+      color: '#fff',
     },
     listContainer: {
-      margin: 10,
+      marginLeft: 10,
+      marginRight: 10,
       padding: 10,
       backgroundColor: '#fff',
-      borderRadius: 4,
+      
+      bordertopRadius: 0,
     },
     table: {
       borderWidth: 2,
@@ -33,10 +36,15 @@ export const styles = StyleSheet.create({
       textAlign: 'center',
     },
     inputContainer: {
-      margin: 10,
+      
+      marginLeft: 10,
+      marginRight: 10,
       padding: 10,
+      paddingTop: 30,
       backgroundColor: '#fff',
-      borderRadius: 4,
+      borderStartStartRadius: 4,
+      borderStartEndRadius: 4,
+
     },
     input: {
       height: 40,
