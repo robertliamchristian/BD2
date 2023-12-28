@@ -6,34 +6,44 @@ export const styles = StyleSheet.create({
       backgroundColor: '#3D437E',
     },
      
-    headerText: {
-      fontWeight: 'bold',
-      fontSize: 18,
-      padding: 10,
-      color: '#fff',
-    },
+    //Style picker to be drop down
+    picker: {
+     // width: 200,
+      //height: 150,
+      //marginTop: 50,
+      backgroundColor: '#E8A3BE',
+      bordertopRadius: 10, 
+      marginStart: 10,
+      marginEnd: 10,
+      marginTop: 0
+      //position: 'absolute',
+     },
+
+
+
     listContainer: {
       marginLeft: 10,
       marginRight: 10,
       padding: 10,
-      backgroundColor: '#fff',
+      backgroundColor: '#F5EDDF',
       
       bordertopRadius: 0,
     },
     table: {
       borderWidth: 2,
-      borderColor: '#c8e1ff',
+      borderColor: '#F5EDDF',
     },
     head: {
-      height: 40,
-      backgroundColor: '#f1f8ff',
+      height: 60,
+      backgroundColor: '#F5EDDF',
+      fontWeight: 'bold',
     },
     row: {
-      backgroundColor: '#f9f9f9',
+      backgroundColor: '#F5EDDF',
     },
     text: {
       margin: 6,
-      textAlign: 'center',
+      textAlign: 'left',
     },
     inputContainer: {
       
@@ -41,7 +51,8 @@ export const styles = StyleSheet.create({
       marginRight: 10,
       padding: 10,
       paddingTop: 30,
-      backgroundColor: '#fff',
+      marginTop: 60,
+      backgroundColor: '#E8A3BE',
       borderStartStartRadius: 4,
       borderStartEndRadius: 4,
 

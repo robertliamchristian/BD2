@@ -71,15 +71,7 @@ const App = () => {
   return (
     <>
       <ScrollView style={styles.scrollView}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedList}
-            onValueChange={itemValue => setSelectedList(itemValue)}
-            style={styles.picker}>
-            <Picker.Item label="Birdedex" value="birdedex" />
-            <Picker.Item label="Userlists" value="userlists" />
-          </Picker>
-        </View>
+        
         
         <View style={styles.inputContainer}>
             <TextInput
@@ -95,21 +87,30 @@ const App = () => {
               keyExtractor={(item, index) => index.toString()}
             />
           )}
-          <TextInput
+          {/*<TextInput
             value={sightingTime}
             onChangeText={setSightingTime}
             placeholder="Sighting Time (Optional)"
             style={styles.input}
-          />
+          />*/}
           <Button title="Add Sighting" onPress={addSighting} />
+        </View>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedList}
+            onValueChange={itemValue => setSelectedList(itemValue)}
+            style={styles.picker}>
+            <Picker.Item label="Birdedex" value="birdedex" />
+            <Picker.Item label="Userlists" value="userlists" />
+          </Picker>
         </View>
   
         {selectedList === 'birdedex' && (
           <View style={styles.listContainer}>
-            <Text style={styles.headerText}>Birdedex:</Text>
+            {/*<Text style={styles.headerText}>Birdedex:</Text>*/}
             <Table borderStyle={styles.table}>
               <Row
-                data={['Bird', 'Sighting Time']}
+                //data={['BIRD', 'SIGHTING TIME']}
                 style={styles.head}
                 textStyle={styles.text}
               />
@@ -127,10 +128,10 @@ const App = () => {
   
         {selectedList === 'userlists' && (
           <View style={styles.listContainer}>
-            <Text style={styles.headerText}>Userlists:</Text>
+            {/*<Text style={styles.headerText}>Userlists:</Text>*/}
             <Table borderStyle={styles.table}>
               <Row
-                data={['Bird', 'Sighting Time']}
+                //data={['BIRD', 'SIGHTING TIME']}
                 style={styles.head}
                 textStyle={styles.text}
               />
