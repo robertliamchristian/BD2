@@ -123,6 +123,28 @@ const App = () => {
             </Table>
           </View>
         )}
+  
+        {selectedList === 'userlists' && (
+          <View style={styles.listContainer}>
+            <Text style={styles.headerText}>Userlists:</Text>
+            <Table borderStyle={styles.table}>
+              <Row
+                data={['Bird', 'Sighting Time']}
+                style={styles.head}
+                textStyle={styles.text}
+              />
+              {userlists.map((rowData, index) => (
+                <Row
+                  key={index}
+                  data={[rowData.bird, rowData.sighting_time]}
+                  style={styles.row}
+                  textStyle={styles.text}
+                />
+              ))}
+            </Table>
+          </View>
+        )}
+        
       </ScrollView>
     </>
   );
