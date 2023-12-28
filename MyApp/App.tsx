@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, StyleSheet, TextInput, Button} from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TextInput, Button, FlatList} from 'react-native';
 import {Table, Row} from 'react-native-table-component';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
@@ -20,6 +20,8 @@ const App = () => {
   const [selectedList, setSelectedList] = useState('birdedex');
   const [birdName, setBirdName] = useState('');
   const [sightingTime, setSightingTime] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
 
   const addSighting = () => {
     axios.post('http://localhost:3000/user_sighting', {
@@ -32,6 +34,25 @@ const App = () => {
     .catch(error => {
       console.error('Error adding sighting:', error);
     });
+  };
+
+  const fetchSuggestions = (input: string) => {
+    axios.get(`http://localhost:3000/suggestions/${input}`)
+      .then(response => {
+        setSuggestions(response.data.map((row: { bird: string }) => row.bird));
+      })
+      .catch(error => {
+        console.error('Error fetching suggestions:', error);
+      });
+  };
+
+  const handleInputChange = (input: string) => {
+    setBirdName(input);
+    if (input === '') {
+      setSuggestions([]);
+    } else {
+      fetchSuggestions(input);
+    }
   };
 
   useEffect(() => {
@@ -60,16 +81,23 @@ const App = () => {
         </View>
         
         <View style={styles.inputContainer}>
-          <TextInput
+            <TextInput
             value={birdName}
-            onChangeText={setBirdName}
+            onChangeText={handleInputChange} // Call handleInputChange instead of setBirdName
             placeholder="Bird Name"
             style={styles.input}
-          />
+            />
+          {suggestions.length > 0 && (
+            <FlatList
+              data={suggestions}
+              renderItem={({ item }) => <Text>{item}</Text>}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          )}
           <TextInput
             value={sightingTime}
             onChangeText={setSightingTime}
-            placeholder="Sighting Time"
+            placeholder="Sighting Time (Optional)"
             style={styles.input}
           />
           <Button title="Add Sighting" onPress={addSighting} />

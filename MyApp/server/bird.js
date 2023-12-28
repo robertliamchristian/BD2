@@ -58,6 +58,20 @@ router.get('/userlists', async (ctx, next) => {
   }
 });
 
+// Suggestions GET
+router.get('/suggestions/:input', async (ctx, next) => {
+  try {
+    const { input } = ctx.params;
+    const result = await pool.query(`
+      SELECT l.bird FROM log l WHERE l.bird LIKE $1 LIMIT 10
+    `, [`%${input}%`]);
+    ctx.body = result.rows;
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = err.message;
+  }
+});
+
 // AddBird POST
 router.post('/user_sighting', async (ctx, next) => {
   try {

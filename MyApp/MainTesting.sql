@@ -1,0 +1,1 @@
+select l.bird from log l where l.bird like '%$1%'
