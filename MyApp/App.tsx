@@ -22,7 +22,7 @@ const App = () => {
   const [birdName, setBirdName] = useState('');
   const [sightingTime, setSightingTime] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
-
+  const [isPickerShown, setIsPickerShown] = useState(false);
 
   const addSighting = () => {
     axios.post('http://localhost:3000/user_sighting', {
@@ -95,14 +95,22 @@ const App = () => {
           />*/}
           <Button title="Add Sighting" onPress={addSighting} />
         </View>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedList}
-            onValueChange={itemValue => setSelectedList(itemValue)}
-            style={styles.picker}>
-            <Picker.Item label="Birdedex" value="birdedex" />
-            <Picker.Item label="Userlists" value="userlists" />
-          </Picker>
+        <View style={styles.mainContainer}>
+          <View style={styles.buttonContainer}>
+            <Button title="Change List" onPress={() => setIsPickerShown(!isPickerShown)} />
+          </View>
+
+          {isPickerShown && (
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={selectedList}
+                onValueChange={itemValue => setSelectedList(itemValue)}
+                style={styles.picker}>
+                <Picker.Item label="Birdedex" value="birdedex" />
+                <Picker.Item label="Userlists" value="userlists" />
+              </Picker>
+            </View>
+          )}
         </View>
   
         {selectedList === 'birdedex' && (

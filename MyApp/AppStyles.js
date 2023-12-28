@@ -1,23 +1,37 @@
 import { StyleSheet } from 'react-native';
-
+import { Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
     scrollView: {
       backgroundColor: '#3D437E',
     },
      
-    //Style picker to be drop down
+    pickerContainer: {
+      alignItems: 'flex-start',
+      // If needed, add padding here to the container
+    },
+    
     picker: {
-     // width: 200,
-      //height: 150,
-      //marginTop: 50,
+      width: '94.6%', // Adjust the width as needed
       backgroundColor: '#E8A3BE',
-      bordertopRadius: 10, 
-      marginStart: 10,
-      marginEnd: 10,
-      marginTop: 0
-      //position: 'absolute',
-     },
+      borderTopRadius: 10,
+      ...Platform.select({
+        ios: {
+          marginStart:10,
+          //marginright:300,
+        },
+        android: {
+          marginStart: 0,
+          marginEnd: 0,
+        },
+      }),
+    },
+    
+
+     button: {
+      backgroundColor: '#E8A3BE',
+      alignSelf: 'flex-start',
+    },
 
 
 
