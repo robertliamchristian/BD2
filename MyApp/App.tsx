@@ -3,6 +3,7 @@ import {ScrollView, View, Text, StyleSheet, TextInput, Button, FlatList} from 'r
 import {Table, Row} from 'react-native-table-component';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
+import { styles } from './AppStyles';
 
 interface Bird {
   bird: string;
@@ -149,60 +150,5 @@ const App = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#fff',
-  },
-  /* pickerContainer: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 4,
-  },
-  picker: {
-    height: 50,
-    width: '100%',
-  },*/
-  headerText: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    padding: 10,
-  },
-  listContainer: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-  },
-  table: {
-    borderWidth: 2,
-    borderColor: '#c8e1ff',
-  },
-  head: {
-    height: 40,
-    backgroundColor: '#f1f8ff',
-  },
-  row: {
-    backgroundColor: '#f9f9f9',
-  },
-  text: {
-    margin: 6,
-    textAlign: 'center',
-  },
-  inputContainer: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-  },
-  input: {
-    height: 40,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 5,
-  },
-});
 
 export default App;
