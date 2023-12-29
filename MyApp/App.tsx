@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, StyleSheet, TextInput, Button, FlatList} from 'react-native';
+import {ScrollView, View, Text,TouchableOpacity,StyleSheet, TextInput, Button, FlatList} from 'react-native';
 import {Table, Row} from 'react-native-table-component';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
-import { styles } from './AppStyles';
+import { styles } from './AppStyles'; 
 
 interface Bird {
   bird: string;
@@ -69,16 +69,25 @@ const App = () => {
   }, []);
 
   return (
+    
       <View style={styles.absoluteContainer}>
+        
         {/* Static Input Section */}
         <View style={styles.inputContainer}>
+        <Text style={styles.title}>Birdedex</Text> 
+ 
           <TextInput
             value={birdName}
             onChangeText={handleInputChange}
             placeholder="Bird Name"
             style={styles.input}
           />
-          <Button title="Add Sighting" onPress={addSighting} />
+          <TouchableOpacity style={styles.buttonStyle} onPress={addSighting}>
+  <Text style={styles.buttonText}>Add Sighting</Text>
+</TouchableOpacity>
+<TouchableOpacity style={styles.buttonStyle} onPress={() => setIsPickerShown(!isPickerShown)}>
+  <Text style={styles.buttonText}>Change List</Text>
+</TouchableOpacity>
         </View>
     
         {/* Pop-out Bird Suggestions */}
@@ -95,14 +104,14 @@ const App = () => {
       >
         {suggestion}
       </Text>
+      
     ))}
   </View>
 )}
     
         {/* Static Button Section */}
-        <View style={styles.buttonContainer}>
-          <Button title="Change List" onPress={() => setIsPickerShown(!isPickerShown)} />
-        </View>
+        
+       
     
         {/* Scrollable List */}
         <FlatList

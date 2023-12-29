@@ -9,16 +9,16 @@ export const styles = StyleSheet.create({
     pickerContainer: {
       position: 'absolute',
       zIndex: 1,
-      width: '94.6%', // You may need to adjust this based on your layout
+      width: '100%', // You may need to adjust this based on your layout
       backgroundColor: '#E8A3BE',
       borderTopRadius: 10,
-      top: 240, 
-      marginLeft: 10,
-      marginRight: 10,
+      bottom: 0,
+      
+     
     },
     
     picker: {
-      width: '94.6%', // Adjust the width as needed
+      width: '100%', // Adjust the width as needed
       backgroundColor: '#E8A3BE',
       borderTopRadius: 10,
       ...Platform.select({
@@ -45,6 +45,8 @@ export const styles = StyleSheet.create({
       flex: 1, // Take up all available space
       position: 'relative', 
       backgroundColor: '#3D437E',
+      padding: 5,  
+
     },
 
      button: {
@@ -58,8 +60,11 @@ export const styles = StyleSheet.create({
       borderRadius: 0,
       marginLeft: 10,
       marginRight: 10,
+      alignSelf: 'flex-start',
       // ... any other styling you want for this button container
     },
+
+  
 
 
     listContainer: {
@@ -88,24 +93,25 @@ export const styles = StyleSheet.create({
       textAlign: 'left',
     },
     inputContainer: {
-      
       marginLeft: 10,
       marginRight: 10,
       padding: 10,
       paddingTop: 30,
       marginTop: 60,
       backgroundColor: '#E8A3BE',
-      borderStartStartRadius: 4,
-      borderStartEndRadius: 4,
- 
-
+      borderTopLeftRadius: 10, // adjust the radius as needed
+      borderTopRightRadius: 10, 
+      
+      
     },
     input: {
       height: 40,
+      width: 250,
       borderColor: '#ddd',
       borderWidth: 1,
       marginBottom: 10,
-      padding: 5,
+      padding: 10,
+      alignSelf: 'flex-start',
       
     },
 
@@ -121,4 +127,20 @@ export const styles = StyleSheet.create({
       padding: 10, // Add padding as needed
       // Add border, shadow, etc. to make it "pop out"
     },
+
+      title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: 0,
+        paddingLeft: 10,
+        paddingBottom: 10,
+        marginbottom: 10,
+        color: '#000000' , 
+        position: 'absolute',
+        
+      },
   });
+
+
+  
