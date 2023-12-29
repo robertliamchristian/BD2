@@ -112,7 +112,7 @@ const App = () => {
             <View style={styles.listContainer}>
               <Table borderStyle={styles.table}>
                 <Row
-                  data={[item.bird, item.sighting_time]}
+                  data={[item.birdid ,item.bird, item.sighting_time]}
                   style={styles.row}
                   textStyle={styles.text}
                 />
