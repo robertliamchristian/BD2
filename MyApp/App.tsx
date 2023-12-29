@@ -83,11 +83,11 @@ const App = () => {
             style={styles.input}
           />
           <TouchableOpacity style={styles.buttonStyle} onPress={addSighting}>
-  <Text style={styles.buttonText}>Add Sighting</Text>
-</TouchableOpacity>
-<TouchableOpacity style={styles.buttonStyle} onPress={() => setIsPickerShown(!isPickerShown)}>
-  <Text style={styles.buttonText}>Change List</Text>
-</TouchableOpacity>
+            <Text style={styles.buttonText}>Add Sighting</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => setIsPickerShown(!isPickerShown)}>
+            <Text style={styles.buttonText}>Change List</Text>
+          </TouchableOpacity>
         </View>
     
         {/* Pop-out Bird Suggestions */}

@@ -120,11 +120,9 @@ export const styles = StyleSheet.create({
       zIndex: 2, // Make sure this is above the FlatList but below the picker if both might appear at the same time
       width: '94.6%', // Adjust as needed
       // Position it right below the inputContainer
-      top: 240/* The Y position where the suggestions should start, likely just below the input container */,
-      left: 10,
-      right: 0,
+      top: 180,
+      marginLeft: 15,
       backgroundColor: '#E8A3BE', // Or any color that fits your design
-      padding: 10, // Add padding as needed
       // Add border, shadow, etc. to make it "pop out"
     },
 
