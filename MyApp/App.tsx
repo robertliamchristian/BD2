@@ -24,18 +24,46 @@ const App = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPickerShown, setIsPickerShown] = useState(false);
 
-  const addSighting = () => {
-    axios.post('http://localhost:3000/user_sighting', {
-      bird: birdName
+  // Function to fetch the latest data
+const fetchLatestData = () => {
+  // Fetch birdedex data
+  fetch('http://localhost:3000/birdedex')
+    .then(response => response.json())
+    .then(data => {
+      setBirdedex(data); // Assuming setBirdedex is your state setter for birdedex
     })
-    .then(response => {
-      console.log(response.data);
-      setBirdName('');
+    .catch(error => console.error('Error fetching birdedex:', error));
+  
+  // Fetch userlists data
+  fetch('http://localhost:3000/userlists')
+    .then(response => response.json())
+    .then(data => {
+      setUserlists(data); // Assuming setUserlists is your state setter for userlists
     })
-    .catch(error => {
-      console.error('Error adding sighting:', error);
-    });
-  };
+    .catch(error => console.error('Error fetching userlists:', error));
+};
+
+// Call this function in useEffect to load data on component mount
+useEffect(() => {
+  fetchLatestData();
+}, []);
+
+// Update your addSighting function
+const addSighting = () => {
+  axios.post('http://localhost:3000/user_sighting', {
+    bird: birdName
+  })
+  .then(response => {
+    console.log(response.data);
+    setBirdName('');
+    // After adding a sighting, fetch the latest data
+    fetchLatestData();
+  })
+  .catch(error => {
+    console.error('Error adding sighting:', error);
+  });
+};
+
 
   const fetchSuggestions = (input: string) => {
     axios.get(`http://localhost:3000/suggestions/${input}`)
@@ -120,11 +148,12 @@ const App = () => {
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
               <Table borderStyle={styles.table}>
-                <Row
-                  data={[item.birdid ,item.bird, item.sighting_time]}
-                  style={styles.row}
-                  textStyle={styles.text}
-                />
+              <Row
+                data={[item.birdid ,item.bird, item.sighting_time]}
+                style={styles.row}
+                textStyle={styles.text}
+                widthArr={[30, 175, 120]} // Add this line
+              />
               </Table>
             </View>
           )}

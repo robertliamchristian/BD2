@@ -34,7 +34,7 @@ router.get('/birdedex', async (ctx, next) => {
       ) 
       select row_number() over (order by main.Bird_Position asc) as birdid
       ,main.bird
-      ,main.sighting_time 
+      ,TO_CHAR(main.sighting_time, 'YYYY-MM-DD') as sighting_time 
       from main
       where main.row_num = 1
       order by birdid asc
@@ -53,7 +53,7 @@ router.get('/userlists', async (ctx, next) => {
     select 
     l.birdid
     ,l.bird
-    ,cast(us.sighting_time as date) as sighting_time
+    ,TO_CHAR(us.sighting_time, 'YYYY-MM-DD') as sighting_time
       from log l
       join user_sighting us on l.birdid = us.birdref
       join user_list ul on us.listid = ul.listid

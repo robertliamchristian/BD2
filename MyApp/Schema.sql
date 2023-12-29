@@ -70,3 +70,9 @@ with main as (
       join user_sighting us on l.birdid = us.birdref
       join user_list ul on us.listid = ul.listid
       order by l.family_rank
+
+
+    -- statement to delete rows from user_sightings where userid is null
+    --delete from user_sighting where userid is null;
+
+        select * from user_sighting;
