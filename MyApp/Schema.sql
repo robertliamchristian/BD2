@@ -32,10 +32,23 @@ listid --pkey
 from user_list;
 
 select 
-sighting_id --pkey
+sightingid --pkey
 ,birdref --fkey
 ,userid --fkey
 ,sighting_time
 ,listid
-from user_sighting;
+from user_sighting us;
 
+
+/* ----------------- */
+
+select 
+sightingid --pkey
+,birdref --fkey
+,userid --fkey
+,sighting_time
+,listid
+,l.bird
+from user_sighting us
+join log l on us.birdref = l.birdid
+where us.birdref = 19;

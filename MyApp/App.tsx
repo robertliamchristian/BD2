@@ -69,95 +69,64 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <ScrollView style={styles.scrollView}>
-        
-        
+      <View style={styles.absoluteContainer}>
+        {/* Static Input Section */}
         <View style={styles.inputContainer}>
-            <TextInput
+          <TextInput
             value={birdName}
-            onChangeText={handleInputChange} // Call handleInputChange instead of setBirdName
+            onChangeText={handleInputChange}
             placeholder="Bird Name"
             style={styles.input}
-            />
-          {suggestions.length > 0 && (
-            <FlatList
-              data={suggestions}
-              renderItem={({ item }) => <Text>{item}</Text>}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          )}
-          {/*<TextInput
-            value={sightingTime}
-            onChangeText={setSightingTime}
-            placeholder="Sighting Time (Optional)"
-            style={styles.input}
-          />*/}
+          />
           <Button title="Add Sighting" onPress={addSighting} />
         </View>
-        <View style={styles.mainContainer}>
-          <View style={styles.buttonContainer}>
-            <Button title="Change List" onPress={() => setIsPickerShown(!isPickerShown)} />
+    
+        {/* Pop-out Bird Suggestions */}
+        {suggestions.length > 0 && (
+          <View style={styles.suggestionsContainer}>
+            {suggestions.map((suggestion, index) => (
+              <Text key={index}>{suggestion}</Text>
+            ))}
           </View>
-
-          {isPickerShown && (
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={selectedList}
-                onValueChange={itemValue => setSelectedList(itemValue)}
-                style={styles.picker}>
-                <Picker.Item label="Birdedex" value="birdedex" />
-                <Picker.Item label="Userlists" value="userlists" />
-              </Picker>
+        )}
+    
+        {/* Static Button Section */}
+        <View style={styles.buttonContainer}>
+          <Button title="Change List" onPress={() => setIsPickerShown(!isPickerShown)} />
+        </View>
+    
+        {/* Scrollable List */}
+        <FlatList
+          style={styles.scrollView}
+          data={selectedList === 'birdedex' ? birdedex : userlists}
+          renderItem={({ item }) => (
+            <View style={styles.listContainer}>
+              <Table borderStyle={styles.table}>
+                <Row
+                  data={[item.bird, item.sighting_time]}
+                  style={styles.row}
+                  textStyle={styles.text}
+                />
+              </Table>
             </View>
           )}
-        </View>
-  
-        {selectedList === 'birdedex' && (
-          <View style={styles.listContainer}>
-            {/*<Text style={styles.headerText}>Birdedex:</Text>*/}
-            <Table borderStyle={styles.table}>
-              <Row
-                //data={['BIRD', 'SIGHTING TIME']}
-                style={styles.head}
-                textStyle={styles.text}
-              />
-              {birdedex.map((rowData, index) => (
-                <Row
-                  key={index}
-                  data={[rowData.bird, rowData.sighting_time]}
-                  style={styles.row}
-                  textStyle={styles.text}
-                />
-              ))}
-            </Table>
+          keyExtractor={(item, index) => index.toString()}
+        />
+    
+        {/* Overlay Picker */}
+        {isPickerShown && (
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={selectedList}
+              onValueChange={itemValue => setSelectedList(itemValue)}
+              style={styles.picker}>
+              <Picker.Item label="Birdedex" value="birdedex" />
+              <Picker.Item label="Userlists" value="userlists" />
+            </Picker>
           </View>
         )}
-  
-        {selectedList === 'userlists' && (
-          <View style={styles.listContainer}>
-            {/*<Text style={styles.headerText}>Userlists:</Text>*/}
-            <Table borderStyle={styles.table}>
-              <Row
-                //data={['BIRD', 'SIGHTING TIME']}
-                style={styles.head}
-                textStyle={styles.text}
-              />
-              {userlists.map((rowData, index) => (
-                <Row
-                  key={index}
-                  data={[rowData.bird, rowData.sighting_time]}
-                  style={styles.row}
-                  textStyle={styles.text}
-                />
-              ))}
-            </Table>
-          </View>
-        )}
-        
-      </ScrollView>
-    </>
-  );
-};
+      </View>
+    );
+}
 
 export default App;
