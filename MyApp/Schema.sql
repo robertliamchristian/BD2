@@ -42,13 +42,31 @@ from user_sighting us;
 
 /* ----------------- */
 
-select 
-sightingid --pkey
-,birdref --fkey
-,userid --fkey
-,sighting_time
-,listid
-,l.bird
-from user_sighting us
-join log l on us.birdref = l.birdid
-where us.birdref = 19;
+with main as (
+        select l.birdid 
+            ,l.bird
+            ,sighting_time
+            ,row_number() over (partition by l.bird order by us.sighting_time asc) as row_num
+            ,row_number() over (order by l.family_rank,l.bird asc) as Bird_Position
+        from log l
+        left join user_sighting us on l.birdid = us.birdref
+        left join user_list ul on us.listid = ul.listid
+        order by l.family_rank
+    ) 
+    select row_number() over (order by main.Bird_Position asc) as birdid
+    ,main.bird
+    ,main.sighting_time 
+    from main
+    where main.row_num = 1
+    order by birdid asc
+
+
+
+    select 
+    l.birdid
+    ,l.bird
+    ,cast(us.sighting_time as date) as sighting_time
+      from log l
+      join user_sighting us on l.birdid = us.birdref
+      join user_list ul on us.listid = ul.listid
+      order by l.family_rank
