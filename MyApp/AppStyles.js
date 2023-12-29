@@ -32,6 +32,14 @@ export const styles = StyleSheet.create({
         },
       }),
     },
+
+ 
+
+    scrollView: {
+      backgroundColor: '#3D437E',
+      marginBottom: 10, 
+    },
+    
     
     absoluteContainer: {
       flex: 1, // Take up all available space
@@ -59,8 +67,9 @@ export const styles = StyleSheet.create({
       marginRight: 10,
       padding: 10,
       backgroundColor: '#F5EDDF',
-      
       bordertopRadius: 0,
+      height: 50,
+      
     },
     table: {
       borderWidth: 2,
@@ -88,6 +97,7 @@ export const styles = StyleSheet.create({
       backgroundColor: '#E8A3BE',
       borderStartStartRadius: 4,
       borderStartEndRadius: 4,
+ 
 
     },
     input: {
@@ -96,6 +106,7 @@ export const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 10,
       padding: 5,
+      
     },
 
     suggestionsContainer: {
@@ -103,7 +114,7 @@ export const styles = StyleSheet.create({
       zIndex: 2, // Make sure this is above the FlatList but below the picker if both might appear at the same time
       width: '94.6%', // Adjust as needed
       // Position it right below the inputContainer
-      top: 130/* The Y position where the suggestions should start, likely just below the input container */,
+      top: 240/* The Y position where the suggestions should start, likely just below the input container */,
       left: 10,
       right: 0,
       backgroundColor: '#E8A3BE', // Or any color that fits your design
