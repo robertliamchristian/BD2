@@ -83,12 +83,21 @@ const App = () => {
     
         {/* Pop-out Bird Suggestions */}
         {suggestions.length > 0 && (
-          <View style={styles.suggestionsContainer}>
-            {suggestions.map((suggestion, index) => (
-              <Text key={index}>{suggestion}</Text>
-            ))}
-          </View>
-        )}
+  <View style={styles.suggestionsContainer}>
+    {suggestions.map((suggestion, index) => (
+      <Text 
+        key={index} 
+        onPress={() => {
+          setBirdName(suggestion);
+          setSuggestions([]);
+        }}
+        style={{padding: 10, fontSize: 18}} // Add some style for better touch experience
+      >
+        {suggestion}
+      </Text>
+    ))}
+  </View>
+)}
     
         {/* Static Button Section */}
         <View style={styles.buttonContainer}>
