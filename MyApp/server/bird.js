@@ -66,6 +66,24 @@ router.get('/userlists', async (ctx, next) => {
   }
 });
 
+// Count Birds GET
+router.get('/birdcounts', async (ctx, next) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        COUNT(*) FILTER (WHERE us.sighting_time IS NOT NULL) as logged_birds,
+        COUNT(*) as total_birds
+      FROM log l
+      LEFT JOIN user_sighting us ON l.birdid = us.birdref
+    `);
+    const { logged_birds, total_birds } = result.rows[0];
+    ctx.body = { logged_birds, total_birds };
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = err.message;
+  }
+});
+
 // Suggestions GET
 router.get('/suggestions/:input', async (ctx, next) => {
   try {

@@ -45,6 +45,16 @@ const fetchLatestData = () => {
     .catch(error => console.error('Error fetching userlists:', error));
 };
 
+  // Fetch count of birds
+  fetch('http://localhost:3000/birdcounts')
+  .then(response => response.json())
+  .then(data => {
+    const { logged_birds, total_birds } = data;
+    console.log(`Total Logged: ${logged_birds}/${total_birds}`);
+  })
+  .catch(error => console.error('Error fetching bird counts:', error));
+
+  
 // Call this function in useEffect to load data on component mount
 useEffect(() => {
   fetchLatestData();
