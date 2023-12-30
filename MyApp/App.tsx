@@ -4,6 +4,8 @@ import {Table, Row} from 'react-native-table-component';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
 import { styles } from './AppStyles'; 
+import { Alert } from 'react-native';
+
 
 interface Bird {
   bird: string;
@@ -56,11 +58,20 @@ const addSighting = () => {
   .then(response => {
     console.log(response.data);
     setBirdName('');
-    // After adding a sighting, fetch the latest data
     fetchLatestData();
+
+    // Check the response data to determine the message
+    if (response.data.newBird) {
+      Alert.alert('Success', `New Bird Sighting Added for ${birdName}!`);
+    } else if (response.data.updated) {
+      Alert.alert('Success', `Bird Sighting Updated for ${birdName}`);
+    } else {
+      Alert.alert('Error', 'Bird Not Found');
+    }
   })
   .catch(error => {
     console.error('Error adding sighting:', error);
+    Alert.alert('Error', 'An error occurred while adding the sighting');
   });
 };
 

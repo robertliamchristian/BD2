@@ -92,10 +92,17 @@ router.post('/user_sighting', async (ctx, next) => {
     `, [bird]);
 
     if (birdExists.rowCount === 0) {
-      throw new Error('Bird not found');
+      ctx.status = 404;
+      ctx.body = { error: 'Bird not found' };
+      return;
     }
 
     const birdId = birdExists.rows[0].birdid;
+
+    // Check if the bird sighting already exists in the user_sighting table
+    const sightingExists = await pool.query(`
+      SELECT birdref FROM user_sighting WHERE birdref = $1
+    `, [birdId]);
 
     let result;
     if (sighting_time) {
@@ -111,11 +118,15 @@ router.post('/user_sighting', async (ctx, next) => {
     }
 
     ctx.status = 201;
-    ctx.body = 'Sighting added successfully';
+    if (sightingExists.rowCount === 0) {
+      ctx.body = { newBird: true };
+    } else {
+      ctx.body = { updated: true };
+    }
   } catch (err) {
     console.error('Error:', err.message); // Log the error message
     ctx.status = 500;
-    ctx.body = err.message;
+    ctx.body = { error: err.message };
   }
 });
 
